@@ -3,6 +3,7 @@ package com.example.convertrgbtogray;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.drawable.DrawableCompat;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -34,6 +35,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
 public class Process extends AppCompatActivity {
 
     Button colorButtonRed, colorButtonRed2, colorButtonRed3;
@@ -42,6 +44,7 @@ public class Process extends AppCompatActivity {
     //take bitmap and bitmap drawable to get image form image view
     BitmapDrawable drawable;
     Bitmap bitmap;
+    ImageButton btnBack;
 
     String imageString="";
 
@@ -62,11 +65,21 @@ public class Process extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_process);
 
         iv = (ImageView)findViewById(R.id.imageView);
         originalImageView = new ImageView(this);
         originalImageView.setImageDrawable(iv.getDrawable());
+        /////////////////////////////////////////// BackHome
+        btnBack = findViewById(R.id.buttonBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         ///////////////////////////////////////////open gallery
         imageView = (ImageView)findViewById(R.id.imageView);
