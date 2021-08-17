@@ -31,7 +31,9 @@ import com.chaquo.python.android.AndroidPlatform;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -51,9 +53,11 @@ public class Process extends AppCompatActivity {
     ///////////////iv
     ImageView imageView;
     ImageView originalImageView;
-
+    ImageButton btnSave;
+    OutputStream outputStream;
     ///////////////about gallery
-    public static final int REQUEST_GALLERY = 1;
+    public static final int REQUEST_GALLERY = 123;
+
     //Bitmap bitmap;
     ///////////////
 
@@ -70,6 +74,7 @@ public class Process extends AppCompatActivity {
         iv = (ImageView)findViewById(R.id.imageView);
         originalImageView = new ImageView(this);
         originalImageView.setImageDrawable(iv.getDrawable());
+
         /////////////////////////////////////////// BackHome
         btnBack = findViewById(R.id.buttonBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -92,6 +97,7 @@ public class Process extends AppCompatActivity {
                         , "Select Picture"), REQUEST_GALLERY);
             }
         });
+
 
         ///////////////////////////////////////////open camera
         ImageButton buttonIntent = findViewById(R.id.imageButton2);
@@ -252,6 +258,8 @@ public class Process extends AppCompatActivity {
         });
 
     }
+
+
     private String getStringImage(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG,100,baos);
@@ -287,7 +295,6 @@ public class Process extends AppCompatActivity {
             }
         }
     }
-
 
     /*
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
