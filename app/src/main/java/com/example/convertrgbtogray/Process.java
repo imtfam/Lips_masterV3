@@ -197,6 +197,7 @@ public class Process extends AppCompatActivity {
                                     openNodialog();
                                     Toast.makeText(Process.this,"\n" + "Please select a new image.",Toast.LENGTH_SHORT).show();
                                 }
+                                
 
                                 private void openNodialog() {
                                     noDialog.setContentView(R.layout.no_face_dialog);
