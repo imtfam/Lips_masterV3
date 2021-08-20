@@ -22,9 +22,9 @@
             android:layout_height="37dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="364dp"
+            android:layout_marginEnd="360dp"
             android:layout_marginBottom="8dp"
-            android:backgroundTint="#D1EAF5"
+            android:backgroundTint="#0000FFFF"
             app:srcCompat="@drawable/arrow_left_icon_153697" />
 
         <ImageButton
@@ -35,7 +35,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="7dp"
-            android:backgroundTint="#D1EAF5"
+            android:backgroundTint="#0000FFFF"
             app:srcCompat="@drawable/save" />
 
     </RelativeLayout>
@@ -48,34 +48,14 @@
         android:layout_weight="0.2">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/imageView_show"
             android:layout_width="match_parent"
             android:layout_height="512dp"
             android:layout_marginEnd="0dp"
-            app:srcCompat="@drawable/smiling" />
+            app:srcCompat="@drawable/selectpicture" />
 
 
 
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_weight="0.5"
-        android:layout_height="match_parent"
-        >
-
-
-        <ImageButton
-            android:id="@+id/imageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="323dp"
-            android:layout_marginBottom="101dp"
-            android:backgroundTint="#D1EAF5"
-            app:srcCompat="@drawable/gallery" />
 
         <ImageButton
             android:id="@+id/imageButton2"
@@ -83,22 +63,40 @@
             android:layout_height="70dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="21dp"
-            android:layout_marginBottom="101dp"
-            android:backgroundTint="#D1EAF5"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="2dp"
+            android:backgroundTint="#0000FFFF"
             app:srcCompat="@drawable/officeicons_6_89731" />
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="292dp"
+            android:layout_marginBottom="3dp"
+            android:backgroundTint="#0000FFFF"
+            app:srcCompat="@drawable/gallery" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5">
 
         <ScrollView
 
-
+            android:id="@+id/scrollview_red"
             android:layout_width="562dp"
             android:layout_height="60dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="25dp"
             android:layout_marginTop="25dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginBottom="34dp"
+            android:layout_marginEnd="45dp"
+            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
@@ -316,9 +314,101 @@
 
 
                 </LinearLayout>
-
             </HorizontalScrollView>
         </ScrollView>
+
+        <ScrollView
+
+            android:id="@+id/scrollview_pure"
+            android:layout_width="562dp"
+            android:layout_height="60dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="45dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <HorizontalScrollView
+                android:id="@+id/horizontalScrollView_test"
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <Button
+
+                        android:id="@+id/button_1"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:backgroundTint="#660099"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="#660099"
+                        android:textColor="#0000FFFF"
+                        android:textSize="0dp"
+                        app:cornerRadius="75dp" />
+
+                    <Button
+                        android:id="@+id/button_2"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:backgroundTint="#9933ff"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="#9933ff"
+                        android:textColor="#0000FFFF"
+                        android:textSize="0dp"
+                        app:cornerRadius="75dp" />
+
+                    <Button
+                        android:id="@+id/button_3"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:backgroundTint="#a020f0"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="#a020f0"
+                        android:textColor="#0000FFFF"
+                        android:textSize="0dp"
+                        app:cornerRadius="75dp" />
+
+
+                </LinearLayout>
+            </HorizontalScrollView>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/button_red"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/button_pure"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="31dp"
+            android:layout_marginBottom="96dp"
+            android:layout_toStartOf="@+id/button_pure"
+            android:backgroundTint="#FF0000"
+            app:cornerRadius="75dp" />
+
+        <Button
+            android:id="@+id/button_pure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="174dp"
+            android:layout_marginBottom="95dp"
+            app:cornerRadius="75dp" />
 
     </RelativeLayout>
 </LinearLayout>

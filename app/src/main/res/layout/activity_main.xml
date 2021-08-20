@@ -12,6 +12,7 @@
         android:layout_width="145dp"
         android:layout_height="147dp"
         android:layout_marginBottom="320dp"
+        android:backgroundTint="#0000FFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.18"
@@ -24,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="320dp"
+        android:backgroundTint="#0000FFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/camera_action_cam_shot_photography_icon_icons_com_55331" />
