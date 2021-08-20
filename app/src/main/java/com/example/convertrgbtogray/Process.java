@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +24,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.chaquo.python.PyObject;
@@ -40,15 +43,16 @@ import java.util.Date;
 
 public class Process extends AppCompatActivity {
 
-    Button colorButtonRed, colorButtonRed2, colorButtonRed3;
+    Button colorButtonRed, colorButtonRed2, colorButtonRed3,btn_dialog_face,button_red,button_pure;
     ImageView iv;
     String ColorRed1, ColorRed2;
     //take bitmap and bitmap drawable to get image form image view
     BitmapDrawable drawable;
     Bitmap bitmap;
     ImageButton btnBack;
-
+    Dialog noDialog;
     String imageString="";
+
 
     ///////////////iv
     ImageView imageView;
@@ -56,7 +60,7 @@ public class Process extends AppCompatActivity {
     ImageButton btnSave;
     OutputStream outputStream;
     ///////////////about gallery
-    public static final int REQUEST_GALLERY = 123;
+    public static final int REQUEST_GALLERY = 1;
 
     //Bitmap bitmap;
     ///////////////
@@ -71,9 +75,35 @@ public class Process extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_process);
 
-        iv = (ImageView)findViewById(R.id.imageView);
+        iv = (ImageView)findViewById(R.id.imageView_show);
         originalImageView = new ImageView(this);
         originalImageView.setImageDrawable(iv.getDrawable());
+
+        ///////////////////////////////////////////Button_color
+        button_red = findViewById(R.id.button_red);
+        button_pure = findViewById(R.id.button_pure);
+        ScrollView scrollView_red = findViewById(R.id.scrollview_red);
+        ScrollView scrollView_pure = findViewById(R.id.scrollview_pure);
+        scrollView_pure.setVisibility(View.INVISIBLE);
+
+        button_red.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              scrollView_red.setVisibility(View.VISIBLE);
+              scrollView_pure.setVisibility(View.INVISIBLE);
+
+            }
+        });
+
+        button_pure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scrollView_pure.setVisibility(View.VISIBLE);
+                scrollView_red.setVisibility(View.INVISIBLE);
+
+
+            }
+        });
 
         /////////////////////////////////////////// BackHome
         btnBack = findViewById(R.id.buttonBack);
@@ -87,7 +117,6 @@ public class Process extends AppCompatActivity {
 
 
         ///////////////////////////////////////////open gallery
-        imageView = (ImageView)findViewById(R.id.imageView);
         ImageButton gallery_button = findViewById(R.id.imageButton);
         gallery_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -97,7 +126,6 @@ public class Process extends AppCompatActivity {
                         , "Select Picture"), REQUEST_GALLERY);
             }
         });
-
 
         ///////////////////////////////////////////open camera
         ImageButton buttonIntent = findViewById(R.id.imageButton2);
@@ -122,7 +150,7 @@ public class Process extends AppCompatActivity {
         colorButtonRed = (Button)findViewById(R.id.button5);
         colorButtonRed2 = (Button)findViewById(R.id.button59);
         colorButtonRed3 = (Button)findViewById(R.id.button60);
-
+        noDialog = new Dialog(this);
 
         if(!Python.isStarted())
             Python.start(new AndroidPlatform(this));
@@ -162,33 +190,59 @@ public class Process extends AppCompatActivity {
                         PyObject obj = pyo.callAttr("main",imageString,String.valueOf(colorButtonRed.getText()));
                         //return value
                         String str = obj.toString();
+                        if(str.equals("null") ){
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    openNodialog();
+                                    Toast.makeText(Process.this,"\n" + "Please select a new image.",Toast.LENGTH_SHORT).show();
+                                }
 
+                                private void openNodialog() {
+                                    noDialog.setContentView(R.layout.no_face_dialog);
+                                    noDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-                        //convert bytearray
-                        byte[]data = android.util.Base64.decode(str, Base64.DEFAULT);
-                        //conver to bitmap
-                        Bitmap bmp = BitmapFactory.decodeByteArray(data,0,data.length);
+                                    ImageView imageDialog = noDialog.findViewById(R.id.imageNodialog);
+                                    Button btnOK = noDialog.findViewById(R.id.btn_no_face);
 
-                        ///Progress
+                                    btnOK.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            noDialog.dismiss();
+                                            /*Toast.makeText(Process.this,"Button OK", Toast.LENGTH_SHORT).show();*/
+                                        }
+                                    });
+                                    noDialog.show();
+
+                                }
+                            });
+
+                        }
+                        else{
+                            //convert bytearray
+                            byte[]data = Base64.decode(str, Base64.DEFAULT);
+                            //conver to bitmap
+                            Bitmap bmp = BitmapFactory.decodeByteArray(data,0,data.length);
+                            ////////////Show Process
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progress.dismiss();
+                                    //set this bitmap to imageView2
+                                    iv.setImageBitmap(bmp);
+                                }
+                            });
+
+                        }
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 progress.dismiss();
                                 //set this bitmap to imageView2
-                                iv.setImageBitmap(bmp);
-
                             }
                         });
-
-
                     }
                 }).start();
-
-
-
-
-
-
             }
         });
         ///////////////////////////////////////////////
@@ -197,63 +251,137 @@ public class Process extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                //get image from image view
                 iv.setImageDrawable(originalImageView.getDrawable());
-                drawable = (BitmapDrawable)iv.getDrawable();
-                bitmap = drawable.getBitmap();
-                imageString = getStringImage(bitmap);
+                Progress progress = new Progress(Process.this);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progress.show();
 
-                //imageString we get encoded iamge string
-                //pass this string in python script
+                            }
+                        });
 
-                //call .py file
-                PyObject pyo = py.getModule("lips");
-                //call module in .py file
-                PyObject obj = pyo.callAttr("main", imageString, String.valueOf(colorButtonRed2.getText()));
-                //return value
-                String str = obj.toString();
+                        //get image from image view
 
+                        drawable = (BitmapDrawable)iv.getDrawable();
+                        bitmap = drawable.getBitmap();
+                        imageString = getStringImage(bitmap);
 
-                //convert bytearray
-                byte[]data = android.util.Base64.decode(str, Base64.DEFAULT);
-                //conver to bitmap
-                Bitmap bmp = BitmapFactory.decodeByteArray(data,0,data.length);
+                        //imageString we get encoded iamge string
+                        //pass this string in python script
 
-                //set this bitmap to imageView2
-                iv.setImageBitmap(bmp);
+                        //call .py file
+                        PyObject pyo = py.getModule("lips");
+                        //call module in .py file
+                        PyObject obj = pyo.callAttr("main",imageString,String.valueOf(colorButtonRed2.getText()));
+                        //return value
+                        String str = obj.toString();
+                        if(str.equals("null") ){
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(Process.this,"No Face!!!",Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                        }
+                        else{
+                            //convert bytearray
+                            byte[]data = android.util.Base64.decode(str, Base64.DEFAULT);
+                            //conver to bitmap
+                            Bitmap bmp = BitmapFactory.decodeByteArray(data,0,data.length);
+                            ////////////Show Process
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progress.dismiss();
+                                    //set this bitmap to imageView2
+                                    iv.setImageBitmap(bmp);
+                                }
+                            });
+
+                        }
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progress.dismiss();
+                                //set this bitmap to imageView2
+                            }
+                        });
+                    }
+                }).start();
             }
         });
-
-
 
         /////////////////////////////////////red3
         colorButtonRed3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //get image from image view
                 iv.setImageDrawable(originalImageView.getDrawable());
-                drawable = (BitmapDrawable)iv.getDrawable();
-                bitmap = drawable.getBitmap();
-                imageString = getStringImage(bitmap);
+                Progress progress = new Progress(Process.this);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progress.show();
 
-                //imageString we get encoded iamge string
-                //pass this string in python script
+                            }
+                        });
 
-                //call .py file
-                PyObject pyo = py.getModule("lips");
-                //call module in .py file
-                PyObject obj = pyo.callAttr("main", imageString, String.valueOf(colorButtonRed3.getText()));
-                //return value
-                String str = obj.toString();
+                        //get image from image view
 
+                        drawable = (BitmapDrawable)iv.getDrawable();
+                        bitmap = drawable.getBitmap();
+                        imageString = getStringImage(bitmap);
 
-                //convert bytearray
-                byte[]data = android.util.Base64.decode(str, Base64.DEFAULT);
-                //conver to bitmap
-                Bitmap bmp = BitmapFactory.decodeByteArray(data,0,data.length);
+                        //imageString we get encoded iamge string
+                        //pass this string in python script
 
-                //set this bitmap to imageView2
-                iv.setImageBitmap(bmp);
+                        //call .py file
+                        PyObject pyo = py.getModule("lips");
+                        //call module in .py file
+                        PyObject obj = pyo.callAttr("main",imageString,String.valueOf(colorButtonRed2.getText()));
+                        //return value
+                        String str = obj.toString();
+                        if(str.equals("null") ){
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(Process.this,"No Face!!!",Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                        }
+                        else{
+                            //convert bytearray
+                            byte[]data = android.util.Base64.decode(str, Base64.DEFAULT);
+                            //conver to bitmap
+                            Bitmap bmp = BitmapFactory.decodeByteArray(data,0,data.length);
+                            ////////////Show Process
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progress.dismiss();
+                                    //set this bitmap to imageView2
+                                    iv.setImageBitmap(bmp);
+                                }
+                            });
+
+                        }
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progress.dismiss();
+                                //set this bitmap to imageView2
+                            }
+                        });
+                    }
+                }).start();
             }
         });
 
@@ -275,7 +403,8 @@ public class Process extends AppCompatActivity {
             Uri uri = data.getData();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-                imageView.setImageBitmap(bitmap);
+                iv.setImageBitmap(bitmap);
+                originalImageView.setImageBitmap(bitmap);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -287,7 +416,8 @@ public class Process extends AppCompatActivity {
             ContentResolver cr = getContentResolver();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(cr, uri);
-                imageView.setImageBitmap(bitmap);
+                iv.setImageBitmap(bitmap);
+                originalImageView.setImageBitmap(bitmap);
                 Toast.makeText(getApplicationContext()
                         , uri.getPath(), Toast.LENGTH_SHORT).show();
             } catch (Exception e) {

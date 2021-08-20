@@ -30,7 +30,8 @@ def main(data,color):
 
     #image = face_recognition.load_image_file("image/1.jpg")
     face_landmarks_list = face_recognition.face_landmarks(img)
-
+    if len(face_landmarks_list) == 0:
+        return "null"
     lips = []
     pointLandmarks = []
 
@@ -61,7 +62,7 @@ def main(data,color):
     imgColorLips[:] = ImageColor.getcolor(color, "RGB")
 
     imgColorLips = cv2.bitwise_and(imgLips, imgColorLips)
-    #imgColorLips = cv2.GaussianBlur(imgColorLips, (7, 7), 10)
+    imgColorLips = cv2.GaussianBlur(imgColorLips, (7, 7), 10)
     imgColorLips = cv2.addWeighted(imgOriginal, 1, imgColorLips, 1, 0)
     print(type(imgColorLips));
 
