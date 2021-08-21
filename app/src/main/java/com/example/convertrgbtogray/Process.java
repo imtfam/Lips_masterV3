@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,6 +16,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -39,6 +41,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 
 public class Process extends AppCompatActivity {
@@ -58,8 +61,7 @@ public class Process extends AppCompatActivity {
     ImageView imageView;
     ImageView originalImageView;
     ImageButton btnSave;
-    OutputStream outputStream;
-    ///////////////about gallery
+        ///////////////about gallery
     public static final int REQUEST_GALLERY = 1;
 
     //Bitmap bitmap;
@@ -269,6 +271,10 @@ public class Process extends AppCompatActivity {
                         bitmap = drawable.getBitmap();
                         imageString = getStringImage(bitmap);
 
+                        ////////////////////save image
+
+
+
                         //imageString we get encoded iamge string
                         //pass this string in python script
 
@@ -384,8 +390,17 @@ public class Process extends AppCompatActivity {
             }
         });
 
-    }
-
+        ////////////////////////Save Image
+        btnSave = findViewById(R.id.buttonSave);
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BitmapDrawable drawable_save = (BitmapDrawable)iv.getDrawable();
+                Bitmap bitmap_save = drawable_save.getBitmap();
+                SaveImageGallery(bitmap_save);
+            }
+        });
+        }
 
     private String getStringImage(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -423,7 +438,7 @@ public class Process extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-    }
+           }
 
     /*
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -441,4 +456,23 @@ public class Process extends AppCompatActivity {
             }
         }
     }*/
+    private void SaveImageGallery(Bitmap bitmap_save){
+        OutputStream outputStream;
+        try {
+            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.Q){
+                ContentResolver con_resolver = getContentResolver();
+                ContentValues con_Values = new ContentValues();
+                con_Values.put(MediaStore.MediaColumns.DISPLAY_NAME,"Image_"+"jpg");
+                con_Values.put(MediaStore.MediaColumns.RELATIVE_PATH,Environment.DIRECTORY_PICTURES+File.separator+getString(R.string.app_name));
+                Uri saveimageUri = con_resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,con_Values);
+
+                outputStream = con_resolver.openOutputStream(Objects.requireNonNull(saveimageUri));
+                bitmap_save.compress(Bitmap.CompressFormat.JPEG,100,outputStream);
+                Objects.requireNonNull(outputStream);
+                Toast.makeText(Process.this,"Save success",Toast.LENGTH_SHORT).show();
+            }
+        }catch (Exception e){
+            Toast.makeText(Process.this,"No save ",Toast.LENGTH_SHORT).show();
+        }
+    }
 }
