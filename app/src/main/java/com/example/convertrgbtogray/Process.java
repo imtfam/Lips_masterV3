@@ -1,11 +1,9 @@
 package com.example.convertrgbtogray;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.drawable.DrawableCompat;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -14,7 +12,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,20 +29,20 @@ import android.widget.Toast;
 import com.chaquo.python.PyObject;
 import com.chaquo.python.Python;
 import com.chaquo.python.android.AndroidPlatform;
+import com.otaliastudios.cameraview.BitmapCallback;
+import com.otaliastudios.cameraview.PictureResult;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Objects;
 
 
 public class Process extends AppCompatActivity {
 
+    public static PictureResult pictureResult = null;
     Button colorButtonRed, colorButtonRed2, colorButtonRed3,btn_dialog_face,button_red,button_pure;
     ImageView iv;
     String ColorRed1, ColorRed2;
@@ -55,7 +52,8 @@ public class Process extends AppCompatActivity {
     ImageButton btnBack;
     Dialog noDialog;
     String imageString="";
-
+    private static final int BUFFER_SIZE = 1024 * 8;
+    private String TAG = MainActivity.class.getSimpleName();
 
     ///////////////iv
     ImageView imageView;
@@ -76,12 +74,25 @@ public class Process extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_process);
+        PictureResult result = pictureResult;
 
         iv = (ImageView)findViewById(R.id.imageView_show);
         originalImageView = new ImageView(this);
-        originalImageView.setImageDrawable(iv.getDrawable());
-
-        ///////////////////////////////////////////Button_color
+        if (result != null) {
+            try {
+                result.toBitmap(new BitmapCallback() {
+                    @Override
+                    public void onBitmapReady(@Nullable Bitmap bitmap) {
+                        iv.setImageBitmap(bitmap);
+                    }
+                });
+            } catch (UnsupportedOperationException e) {
+                Log.e(TAG, "onCreate: ", e);
+            }
+        }else {
+            originalImageView.setImageDrawable(iv.getDrawable());
+        }
+              ///////////////////////////////////////////Button_color
         button_red = findViewById(R.id.button_red);
         button_pure = findViewById(R.id.button_pure);
         ScrollView scrollView_red = findViewById(R.id.scrollview_red);
@@ -119,7 +130,7 @@ public class Process extends AppCompatActivity {
 
 
         ///////////////////////////////////////////open gallery
-        ImageButton gallery_button = findViewById(R.id.imageButton);
+        ImageButton gallery_button = findViewById(R.id.open_gellery);
         gallery_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -130,19 +141,10 @@ public class Process extends AppCompatActivity {
         });
 
         ///////////////////////////////////////////open camera
-        ImageButton buttonIntent = findViewById(R.id.imageButton2);
+        ImageButton buttonIntent = findViewById(R.id.btn_camera);
         buttonIntent.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                String timeStamp =
-                        new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                String imageFileName = "IMG_" + timeStamp + ".jpg";
-                File f = new File(Environment.getExternalStorageDirectory()
-                        , "DCIM/Camera/" + imageFileName);
-                uri = Uri.fromFile(f);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-                startActivityForResult(Intent.createChooser(intent
-                        , "Take a picture with"), REQUEST_CAMERA);
+               startActivity(new Intent(Process.this, CameraActivity.class));
             }
         });
 
@@ -176,7 +178,6 @@ public class Process extends AppCompatActivity {
 
                             }
                         });
-
                         //get image from image view
 
                         drawable = (BitmapDrawable)iv.getDrawable();
@@ -390,7 +391,9 @@ public class Process extends AppCompatActivity {
             }
         });
 
-        ////////////////////////Save Image
+        ///////////////////////////Camera
+
+                ////////////////////////Save Image
         btnSave = findViewById(R.id.buttonSave);
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -475,4 +478,13 @@ public class Process extends AppCompatActivity {
             Toast.makeText(Process.this,"No save ",Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
+
+
 }

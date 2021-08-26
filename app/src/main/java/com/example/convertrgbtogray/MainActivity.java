@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 public class MainActivity extends AppCompatActivity {
 
-     ImageButton btnHome;
+    ImageButton btnHome;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
