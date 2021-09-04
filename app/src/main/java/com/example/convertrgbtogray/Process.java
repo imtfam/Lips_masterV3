@@ -19,10 +19,13 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
@@ -43,7 +46,7 @@ import java.util.Objects;
 public class Process extends AppCompatActivity {
 
     public static PictureResult pictureResult = null;
-    Button colorButtonRed, colorButtonRed2, colorButtonRed3,btn_dialog_face,button_red,button_pure;
+    Button colorButtonRed, colorButtonRed2, colorButtonRed3,button_Matte,button_Satin,button_Amplified,button_Lustre,button_Chemesheen;
     ImageView iv;
     String ColorRed1, ColorRed2;
     //take bitmap and bitmap drawable to get image form image view
@@ -76,6 +79,12 @@ public class Process extends AppCompatActivity {
         setContentView(R.layout.activity_process);
         PictureResult result = pictureResult;
 
+        RelativeLayout Re = findViewById(R.id.Reletive_Process);
+        View v = LayoutInflater.from(Re.getContext())
+                .inflate(R.layout.activity_color, Re, false);
+        Re.addView(v);
+
+
         iv = (ImageView)findViewById(R.id.imageView_show);
         originalImageView = new ImageView(this);
         if (result != null) {
@@ -93,26 +102,76 @@ public class Process extends AppCompatActivity {
             originalImageView.setImageDrawable(iv.getDrawable());
         }
               ///////////////////////////////////////////Button_color
-        button_red = findViewById(R.id.button_red);
-        button_pure = findViewById(R.id.button_pure);
-        ScrollView scrollView_red = findViewById(R.id.scrollview_red);
-        ScrollView scrollView_pure = findViewById(R.id.scrollview_pure);
-        scrollView_pure.setVisibility(View.INVISIBLE);
-
-        button_red.setOnClickListener(new View.OnClickListener() {
+        button_Matte = findViewById(R.id.button_Matte);
+        button_Satin = findViewById(R.id.button_Satin);
+        button_Amplified = findViewById(R.id.button_Amplified);
+        button_Lustre = findViewById(R.id.button_Lustre);
+        button_Chemesheen = findViewById(R.id.button_Chemesheen);
+        HorizontalScrollView scrollView_Matte = findViewById(R.id.scrollview_Matte);
+        HorizontalScrollView scrollView_Satin = findViewById(R.id.scrollview_Satin);
+        HorizontalScrollView scrollView_Amplified = findViewById(R.id.scrollview_Amplified);
+        HorizontalScrollView scrollView_Lustre= findViewById(R.id.scrollview_Lustre);
+        HorizontalScrollView scrollView_Chemesheen = findViewById(R.id.scrollview_Cremesheen);
+        scrollView_Satin.setVisibility(View.INVISIBLE);
+        scrollView_Amplified.setVisibility(View.INVISIBLE);
+        scrollView_Lustre.setVisibility(View.INVISIBLE);
+        scrollView_Chemesheen.setVisibility(View.INVISIBLE);
+        scrollView_Satin.setVisibility(View.INVISIBLE);
+        button_Matte.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              scrollView_red.setVisibility(View.VISIBLE);
-              scrollView_pure.setVisibility(View.INVISIBLE);
+              scrollView_Matte.setVisibility(View.VISIBLE);
+              scrollView_Satin.setVisibility(View.INVISIBLE);
+              scrollView_Amplified.setVisibility(View.INVISIBLE);
+              scrollView_Lustre.setVisibility(View.INVISIBLE);
+              scrollView_Chemesheen.setVisibility(View.INVISIBLE);
 
             }
         });
 
-        button_pure.setOnClickListener(new View.OnClickListener() {
+        button_Satin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                scrollView_pure.setVisibility(View.VISIBLE);
-                scrollView_red.setVisibility(View.INVISIBLE);
+                scrollView_Satin.setVisibility(View.VISIBLE);
+                scrollView_Matte.setVisibility(View.INVISIBLE);
+                scrollView_Amplified.setVisibility(View.INVISIBLE);
+                scrollView_Lustre.setVisibility(View.INVISIBLE);
+                scrollView_Chemesheen.setVisibility(View.INVISIBLE);
+
+
+            }
+        });
+        button_Amplified.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scrollView_Amplified.setVisibility(View.VISIBLE);
+                scrollView_Satin.setVisibility(View.INVISIBLE);
+                scrollView_Matte.setVisibility(View.INVISIBLE);
+                scrollView_Lustre.setVisibility(View.INVISIBLE);
+                scrollView_Chemesheen.setVisibility(View.INVISIBLE);
+
+            }
+        });
+        button_Lustre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scrollView_Lustre.setVisibility(View.VISIBLE);
+                scrollView_Satin.setVisibility(View.INVISIBLE);
+                scrollView_Matte.setVisibility(View.INVISIBLE);
+                scrollView_Amplified.setVisibility(View.INVISIBLE);
+                scrollView_Chemesheen.setVisibility(View.INVISIBLE);
+
+
+            }
+        });
+        button_Chemesheen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scrollView_Chemesheen.setVisibility(View.VISIBLE);
+                scrollView_Satin.setVisibility(View.INVISIBLE);
+                scrollView_Matte.setVisibility(View.INVISIBLE);
+                scrollView_Amplified.setVisibility(View.INVISIBLE);
+                scrollView_Lustre.setVisibility(View.INVISIBLE);
 
 
             }
@@ -148,12 +207,11 @@ public class Process extends AppCompatActivity {
             }
         });
 
-
         ///////////////////////////////////////////////////////////////////////////////////
         //submit
-        colorButtonRed = (Button)findViewById(R.id.button5);
-        colorButtonRed2 = (Button)findViewById(R.id.button59);
-        colorButtonRed3 = (Button)findViewById(R.id.button60);
+        colorButtonRed = (Button)findViewById(R.id.Peachy_New_Year);
+        colorButtonRed2 = (Button)findViewById(R.id.Chili);
+        colorButtonRed3 = (Button)findViewById(R.id.Russian_Red);
         noDialog = new Dialog(this);
 
         if(!Python.isStarted())
