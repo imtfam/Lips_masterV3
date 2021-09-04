@@ -96,6 +96,7 @@
                         android:layout_toStartOf="@+id/button_pure"
                         android:text="ChemmeSheen"
                         android:textColor="#000000"
+                        android:backgroundTint="#FFFFFF"
 
 
                         />

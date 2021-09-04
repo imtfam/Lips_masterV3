@@ -54,7 +54,8 @@ public class Process extends AppCompatActivity {
     Bitmap bitmap;
     ImageButton btnBack;
     Dialog noDialog;
-    String imageString="";
+    String imageString="",colorText = "";
+
     private static final int BUFFER_SIZE = 1024 * 8;
     private String TAG = MainActivity.class.getSimpleName();
 
@@ -93,6 +94,7 @@ public class Process extends AppCompatActivity {
                     @Override
                     public void onBitmapReady(@Nullable Bitmap bitmap) {
                         iv.setImageBitmap(bitmap);
+                        originalImageView.setImageDrawable(iv.getDrawable());
                     }
                 });
             } catch (UnsupportedOperationException e) {
@@ -100,6 +102,7 @@ public class Process extends AppCompatActivity {
             }
         }else {
             originalImageView.setImageDrawable(iv.getDrawable());
+
         }
               ///////////////////////////////////////////Button_color
         button_Matte = findViewById(R.id.button_Matte);
@@ -449,6 +452,7 @@ public class Process extends AppCompatActivity {
             }
         });
 
+
         ///////////////////////////Camera
 
                 ////////////////////////Save Image
@@ -536,7 +540,6 @@ public class Process extends AppCompatActivity {
             Toast.makeText(Process.this,"No save ",Toast.LENGTH_SHORT).show();
         }
     }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
