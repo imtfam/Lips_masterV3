@@ -221,234 +221,13 @@ public class Process extends AppCompatActivity {
             Python.start(new AndroidPlatform(this));
 
         /////////////////////////////////////////////red1
-        final Python py = Python.getInstance();
+
 
         colorButtonRed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Processlip(colorButtonRed.getText());
 
-                iv.setImageDrawable(originalImageView.getDrawable());
-                Progress progress = new Progress(Process.this);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                progress.show();
-
-                            }
-                        });
-                        //get image from image view
-
-                        drawable = (BitmapDrawable)iv.getDrawable();
-                        bitmap = drawable.getBitmap();
-                        imageString = getStringImage(bitmap);
-
-                        //imageString we get encoded iamge string
-                        //pass this string in python script
-
-                        //call .py file
-                        PyObject pyo = py.getModule("lips");
-                        //call module in .py file
-                        PyObject obj = pyo.callAttr("main",imageString,String.valueOf(colorButtonRed.getText()));
-                        //return value
-                        String str = obj.toString();
-                        if(str.equals("null") ){
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    openNodialog();
-                                    Toast.makeText(Process.this,"\n" + "Please select a new image.",Toast.LENGTH_SHORT).show();
-                                }
-                                private void openNodialog() {
-                                    noDialog.setContentView(R.layout.no_face_dialog);
-                                    noDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-                                    ImageView imageDialog = noDialog.findViewById(R.id.imageNodialog);
-                                    Button btnOK = noDialog.findViewById(R.id.btn_no_face);
-
-                                    btnOK.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            noDialog.dismiss();
-                                            /*Toast.makeText(Process.this,"Button OK", Toast.LENGTH_SHORT).show();*/
-                                        }
-                                    });
-                                    noDialog.show();
-
-                                }
-                            });
-
-                        }
-                        else{
-                            //convert bytearray
-                            byte[]data = Base64.decode(str, Base64.DEFAULT);
-                            //conver to bitmap
-                            Bitmap bmp = BitmapFactory.decodeByteArray(data,0,data.length);
-                            ////////////Show Process
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    progress.dismiss();
-                                    //set this bitmap to imageView2
-                                    iv.setImageBitmap(bmp);
-                                }
-                            });
-
-                        }
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                progress.dismiss();
-                                //set this bitmap to imageView2
-                            }
-                        });
-                    }
-                }).start();
-            }
-        });
-        ///////////////////////////////////////////////
-        ///////////////////////////////////////////////red2
-        colorButtonRed2.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                iv.setImageDrawable(originalImageView.getDrawable());
-                Progress progress = new Progress(Process.this);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                progress.show();
-
-                            }
-                        });
-
-                        //get image from image view
-
-                        drawable = (BitmapDrawable)iv.getDrawable();
-                        bitmap = drawable.getBitmap();
-                        imageString = getStringImage(bitmap);
-
-                        ////////////////////save image
-
-
-
-                        //imageString we get encoded iamge string
-                        //pass this string in python script
-
-                        //call .py file
-                        PyObject pyo = py.getModule("lips");
-                        //call module in .py file
-                        PyObject obj = pyo.callAttr("main",imageString,String.valueOf(colorButtonRed2.getText()));
-                        //return value
-                        String str = obj.toString();
-                        if(str.equals("null") ){
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(Process.this,"No Face!!!",Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
-                        }
-                        else{
-                            //convert bytearray
-                            byte[]data = android.util.Base64.decode(str, Base64.DEFAULT);
-                            //conver to bitmap
-                            Bitmap bmp = BitmapFactory.decodeByteArray(data,0,data.length);
-                            ////////////Show Process
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    progress.dismiss();
-                                    //set this bitmap to imageView2
-                                    iv.setImageBitmap(bmp);
-                                }
-                            });
-
-                        }
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                progress.dismiss();
-                                //set this bitmap to imageView2
-                            }
-                        });
-                    }
-                }).start();
-            }
-        });
-
-        /////////////////////////////////////red3
-        colorButtonRed3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iv.setImageDrawable(originalImageView.getDrawable());
-                Progress progress = new Progress(Process.this);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                progress.show();
-
-                            }
-                        });
-
-                        //get image from image view
-
-                        drawable = (BitmapDrawable)iv.getDrawable();
-                        bitmap = drawable.getBitmap();
-                        imageString = getStringImage(bitmap);
-
-                        //imageString we get encoded iamge string
-                        //pass this string in python script
-
-                        //call .py file
-                        PyObject pyo = py.getModule("lips");
-                        //call module in .py file
-                        PyObject obj = pyo.callAttr("main",imageString,String.valueOf(colorButtonRed2.getText()));
-                        //return value
-                        String str = obj.toString();
-                        if(str.equals("null") ){
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(Process.this,"No Face!!!",Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
-                        }
-                        else{
-                            //convert bytearray
-                            byte[]data = android.util.Base64.decode(str, Base64.DEFAULT);
-                            //conver to bitmap
-                            Bitmap bmp = BitmapFactory.decodeByteArray(data,0,data.length);
-                            ////////////Show Process
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    progress.dismiss();
-                                    //set this bitmap to imageView2
-                                    iv.setImageBitmap(bmp);
-                                }
-                            });
-
-                        }
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                progress.dismiss();
-                                //set this bitmap to imageView2
-                            }
-                        });
-                    }
-                }).start();
             }
         });
 
@@ -466,6 +245,89 @@ public class Process extends AppCompatActivity {
             }
         });
         }
+
+    private void Processlip(CharSequence text) {
+        final Python py = Python.getInstance();
+        iv.setImageDrawable(originalImageView.getDrawable());
+        Progress progress = new Progress(Process.this);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progress.show();
+
+                    }
+                });
+                //get image from image view
+
+                drawable = (BitmapDrawable)iv.getDrawable();
+                bitmap = drawable.getBitmap();
+                imageString = getStringImage(bitmap);
+
+                //imageString we get encoded iamge string
+                //pass this string in python script
+
+                //call .py file
+                PyObject pyo = py.getModule("lips");
+                //call module in .py file
+                PyObject obj = pyo.callAttr("main",imageString,String.valueOf(text));
+                //return value
+                String str = obj.toString();
+                if(str.equals("null") ){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            openNodialog();
+                            Toast.makeText(Process.this,"\n" + "Please select a new image.",Toast.LENGTH_SHORT).show();
+                        }
+                        private void openNodialog() {
+                            noDialog.setContentView(R.layout.no_face_dialog);
+                            noDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                            ImageView imageDialog = noDialog.findViewById(R.id.imageNodialog);
+                            Button btnOK = noDialog.findViewById(R.id.btn_no_face);
+
+                            btnOK.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    noDialog.dismiss();
+                                    /*Toast.makeText(Process.this,"Button OK", Toast.LENGTH_SHORT).show();*/
+                                }
+                            });
+                            noDialog.show();
+
+                        }
+                    });
+
+                }
+                else{
+                    //convert bytearray
+                    byte[]data = Base64.decode(str, Base64.DEFAULT);
+                    //conver to bitmap
+                    Bitmap bmp = BitmapFactory.decodeByteArray(data,0,data.length);
+                    ////////////Show Process
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progress.dismiss();
+                            //set this bitmap to imageView2
+                            iv.setImageBitmap(bmp);
+                        }
+                    });
+
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progress.dismiss();
+                        //set this bitmap to imageView2
+                    }
+                });
+            }
+        }).start();
+    }
 
     private String getStringImage(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -540,6 +402,7 @@ public class Process extends AppCompatActivity {
             Toast.makeText(Process.this,"No save ",Toast.LENGTH_SHORT).show();
         }
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
