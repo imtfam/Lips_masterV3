@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#D1EAF5"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".color_recycleview"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <RelativeLayout
+        android:layout_width="378dp"
+        android:layout_height="80dp">
+
+        <HorizontalScrollView
+
+            android:id="@+id/scrollview_color"
+            android:layout_width="353dp"
+            android:layout_height="48dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="7dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button_Matte"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="96dp"
+                    android:backgroundTint="#FFFFFF"
+                    android:text="Matte"
+                    android:textColor="#000000"/>
+
+                <Button
+                    android:id="@+id/button_Satin"
+                    android:layout_width="100dp"
+                    android:layout_height="50dp"
+                    android:layout_alignTop="@+id/button_pure"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="96dp"
+                    android:backgroundTint="#FFFFFF"
+                    android:text="Satin"
+                    android:textColor="#000000"/>
+
+                <Button
+                    android:id="@+id/button_Amplified"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_alignTop="@+id/button_pure"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="96dp"
+                    android:backgroundTint="#FFFFFF"
+                    android:text="Amplified"
+                    android:textColor="#000000"/>
+
+                <Button
+                    android:id="@+id/button_Lustre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_alignTop="@+id/button_pure"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="96dp"
+                    android:backgroundTint="#FFFFFF"
+                    android:text="Lustre"
+                    android:textColor="#000000"/>
+
+                <Button
+                    android:id="@+id/button_Chemesheen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_alignTop="@+id/button_pure"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="96dp"
+                    android:backgroundTint="#FFFFFF"
+                    android:text="ChemmeSheen"
+                    android:textColor="#000000"/>
+            </LinearLayout>
+        </HorizontalScrollView>
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+</LinearLayout>
