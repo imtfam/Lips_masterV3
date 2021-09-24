@@ -60,11 +60,11 @@ public class CameraActivity extends AppCompatActivity {
         }
         if (v == ibToggle) {
             switch (cv.toggleFacing()) {
-                case BACK:
-                    Toast.makeText(this, "Ganti ke kamera belakang", Toast.LENGTH_SHORT).show();
-                    break;
                 case FRONT:
                     Toast.makeText(this, "Ganti ke kamera depan", Toast.LENGTH_SHORT).show();
+                    break;
+                case BACK:
+                    Toast.makeText(this, "Ganti ke kamera belakang", Toast.LENGTH_SHORT).show();
                     break;
             }
         }

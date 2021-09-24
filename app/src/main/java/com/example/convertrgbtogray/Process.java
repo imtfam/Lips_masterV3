@@ -335,9 +335,7 @@ public class Process extends AppCompatActivity {
 
         ///////////////////////////////////////////////////////////////////////////////////
         //submit
-        colorButtonRed = (Button)findViewById(R.id.Peachy_New_Year);
-        colorButtonRed2 = (Button)findViewById(R.id.Chili);
-        colorButtonRed3 = (Button)findViewById(R.id.Russian_Red);
+
         noDialog = new Dialog(this);
 
         if(!Python.isStarted())
