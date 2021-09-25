@@ -18,12 +18,12 @@
 
         <ImageButton
             android:id="@+id/buttonBack"
-            android:layout_width="36dp"
-            android:layout_height="37dp"
-            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="354dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="252dp"
+            android:layout_marginBottom="0dp"
+            android:layout_toStartOf="@+id/buttonSave"
             android:backgroundTint="#0000FFFF"
             app:srcCompat="@drawable/arrow_left_icon_153697" />
 
