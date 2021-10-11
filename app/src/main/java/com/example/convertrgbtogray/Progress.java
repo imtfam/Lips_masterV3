@@ -19,5 +19,6 @@ public class Progress extends Dialog {
         setOnCancelListener(null);
         View view = LayoutInflater.from(context).inflate(R.layout.progress,null);
         setContentView(view);
+
     }
 }

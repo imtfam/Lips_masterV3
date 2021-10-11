@@ -42,7 +42,7 @@ public class Camera_Realtime extends AppCompatActivity {
         cv = findViewById(R.id.camera_view_Realtime);
         ibToggle = findViewById(R.id.toggleCamera_Realtime);
         ibToggle.setOnClickListener(this::onClick);
-         cv.setLifecycleOwner(this);
+        cv.setLifecycleOwner(this);
         cv.addCameraListener(cl);
 
         RelativeLayout Re_camera_realtime = findViewById(R.id.Reletive_Camera_Realtime);

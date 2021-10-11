@@ -47,12 +47,13 @@
         android:layout_height="match_parent"
         android:layout_weight="0.3">
 
-        <ImageView
+
+        <com.ortiz.touchview.TouchImageView
             android:id="@+id/imageView_show"
             android:layout_width="match_parent"
             android:layout_height="490dp"
             android:layout_marginEnd="0dp"
-            app:srcCompat="@drawable/selectpicture" />
+            app:srcCompat="@drawable/selectpicture"/>
 
 
         <ImageButton
