@@ -28,10 +28,16 @@ def main(data,color):
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     #####
 
-    #image = face_recognition.load_image_file("image/1.jpg")
     face_landmarks_list = face_recognition.face_landmarks(img)
     if len(face_landmarks_list) == 0:
         return "null"
+
+
+    #img = cv2.imread('image/1.jpg')
+    img = cv2.resize(img, (0, 0), None, 1, 1)
+    imgOriginal = np.copy(img)
+
+
     lips = []
     pointLandmarks = []
 
@@ -40,13 +46,6 @@ def main(data,color):
             lips.append((face_landmarks['top_lip'][i]))
         for i in range(len(face_landmarks['bottom_lip'])):
             lips.append((face_landmarks['bottom_lip'][i]))
-
-
-
-    #img = cv2.imread('image/1.jpg')
-    #success, img = cap.read()
-    img = cv2.resize(img, (0, 0), None, 1, 1)
-    imgOriginal = img.copy()
 
     for i in range(len(lips)):
         x = lips[i][0]
@@ -58,15 +57,20 @@ def main(data,color):
 
     imgLips = creatorBox(img, pointLandmarks, masked = True, cropped = False)
 
-    imgColorLips = np.zeros_like(imgLips)
-    imgColorLips[:] = ImageColor.getcolor(color, "RGB")
+    maskImgLips = creatorBox(img, pointLandmarks, masked = True, cropped = False)
+    _, maskImgLips = cv2.threshold(maskImgLips, thresh=180, maxval=255, type=cv2.THRESH_BINARY)
 
-    imgColorLips = cv2.bitwise_and(imgLips, imgColorLips)
-    imgColorLips = cv2.GaussianBlur(imgColorLips, (7, 7), 10)
-    imgColorLips = cv2.addWeighted(imgOriginal, 1, imgColorLips, 1, 0)
-    print(type(imgColorLips));
+    redLips = np.copy(img)
+    redLips[(maskImgLips == 255).all(-1)] = ImageColor.getcolor(color, "RGB")
 
-    pil_im = Image.fromarray(imgColorLips)
+    redLipsW = cv2.addWeighted(redLips, 0.3, img, 0.7, 0, redLips)
+
+    #fig, ax = plt.subplots(1, 2, figsize = (12, 6))
+    #ax[0].imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+    #ax[1].imshow(cv2.cvtColor(redLipsW, cv2.COLOR_BGR2RGB))
+    #cv2.imshow('a', redLipsW)
+
+    pil_im = Image.fromarray(redLipsW)
 
 
     #####

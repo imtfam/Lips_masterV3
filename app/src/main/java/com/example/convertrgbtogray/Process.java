@@ -336,14 +336,12 @@ public class Process extends AppCompatActivity {
         ///////////////////////////////////////////////////////////////////////////////////
         //submit
 
-        noDialog = new Dialog(this);
+
 
         if(!Python.isStarted())
             Python.start(new AndroidPlatform(this));
 
-
-        ///////////////////////////Camera
-
+        noDialog = new Dialog(this);
                 ////////////////////////Save Image
         btnSave = findViewById(R.id.buttonSave);
         btnSave.setOnClickListener(new View.OnClickListener() {
@@ -356,14 +354,7 @@ public class Process extends AppCompatActivity {
         });
         }
 
-    private void showtext(String asdasdasf) {
-        Log.d("Test","++++++"+asdasdasf);
-    }
-    public  void Processtest(){
-
-    }
-
-    public void Processlip(CharSequence text) {
+    public void Processlip(CharSequence hex_color) {
         final Python py = Python.getInstance();
         iv.setImageDrawable(originalImageView.getDrawable());
         Progress progress = new Progress(Process.this);
@@ -374,7 +365,6 @@ public class Process extends AppCompatActivity {
                     @Override
                     public void run() {
                         progress.show();
-
                     }
                 });
                 //get image from image view
@@ -389,7 +379,7 @@ public class Process extends AppCompatActivity {
                 //call .py file
                 PyObject pyo = py.getModule("lips");
                 //call module in .py file
-                PyObject obj = pyo.callAttr("main",imageString,String.valueOf(text));
+                PyObject obj = pyo.callAttr("main",imageString,String.valueOf(hex_color));
                 //return value
                 String str = obj.toString();
                 if(str.equals("null") ){
@@ -414,10 +404,8 @@ public class Process extends AppCompatActivity {
                                 }
                             });
                             noDialog.show();
-
                         }
                     });
-
                 }
                 else{
                     //convert bytearray
@@ -526,7 +514,7 @@ public class Process extends AppCompatActivity {
         finish();
     }
      class CustomAdaptor extends RecyclerView.Adapter<CustomAdaptor.MyViewHolder> {
-        public String text123 ="";
+        public String hex_color ="";
         private Context context;
         private List<App> apps;
         public Process process;
@@ -568,8 +556,8 @@ public class Process extends AppCompatActivity {
             holder.Color.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    text123 = app.getTextColor();
-                    Processlip(text123);
+                    hex_color = app.getTextColor();
+                    Processlip(hex_color);
                 }
             });
 

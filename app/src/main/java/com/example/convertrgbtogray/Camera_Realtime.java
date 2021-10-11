@@ -265,7 +265,7 @@ public class Camera_Realtime extends AppCompatActivity {
 
     }
     class CustomAdaptor1 extends RecyclerView.Adapter<CustomAdaptor1.MyViewHolder> {
-        public String text123 ="";
+        public String hex_color ="";
         private Context context;
         private List<App> apps;
 
@@ -306,7 +306,7 @@ public class Camera_Realtime extends AppCompatActivity {
             holder.Color.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    text123 = app.getTextColor();
+                    hex_color = app.getTextColor();
                     ///Processlip(text123);
                 }
             });
