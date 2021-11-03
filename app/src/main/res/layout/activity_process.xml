@@ -38,6 +38,17 @@
             android:backgroundTint="#0000FFFF"
             app:srcCompat="@drawable/save" />
 
+        <ImageButton
+            android:id="@+id/buttonshare"
+            android:layout_width="47dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="-6dp"
+            android:layout_marginEnd="1dp"
+            android:layout_toStartOf="@+id/buttonSave"
+            android:backgroundTint="#0000FFFF"
+            app:srcCompat="@drawable/sharing" />
+
     </RelativeLayout>
 
 
