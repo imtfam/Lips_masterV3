@@ -62,7 +62,6 @@ public class Process extends AppCompatActivity {
     List<App> appList1,appListColor;
     Button button_Matte,button_Satin,button_Amplified,button_Lustre,button_Chemesheen;
      public static PictureResult pictureResult = null;
-    Button colorButtonRed, colorButtonRed2, colorButtonRed3;
     ImageView iv;
        //take bitmap and bitmap drawable to get image form image view
     BitmapDrawable drawable;
@@ -75,14 +74,10 @@ public class Process extends AppCompatActivity {
     private String TAG = MainActivity.class.getSimpleName();
 
     ///////////////iv
-    ImageView imageView;
     ImageView originalImageView;
     ImageButton btnSave,btnshare;
         ///////////////about gallery
     public static final int REQUEST_GALLERY = 1;
-
-    //Bitmap bitmap;
-    ///////////////
 
     ///////////////about camera
     public static final int REQUEST_CAMERA = 2;
@@ -350,24 +345,18 @@ public class Process extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*if (str_iv.equals("null")){
-                    Toast.makeText(Process.this,"\n" + "Please select a new image.",Toast.LENGTH_SHORT).show();
-                }*/
 
-                    BitmapDrawable drawable_save = (BitmapDrawable)iv.getDrawable();
+                    BitmapDrawable drawable_save = (BitmapDrawable) iv.getDrawable();
                     Bitmap bitmap_save = drawable_save.getBitmap();
                     SaveImageGallery(bitmap_save);
-
             }
+
         });
 
         btnshare = findViewById(R.id.buttonshare);
         btnshare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Now share image function will be called
-                // here we  will be passing the text to share
-                // Getting drawable value from image
                 BitmapDrawable bitmapDrawable = (BitmapDrawable) iv.getDrawable();
                 Bitmap bitmap = bitmapDrawable.getBitmap();
                 shareImageandText(bitmap);
@@ -493,22 +482,6 @@ public class Process extends AppCompatActivity {
         }
            }
 
-    /*
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CAMERA && resultCode == RESULT_OK) {
-            getContentResolver().notifyChange(uri, null);
-            ContentResolver cr = getContentResolver();
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(cr, uri);
-                imageView.setImageBitmap(bitmap);
-                Toast.makeText(getApplicationContext()
-                        , uri.getPath(), Toast.LENGTH_SHORT).show();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }*/
     private void SaveImageGallery(Bitmap bitmap_save){
         OutputStream outputStream;
         try {
@@ -545,7 +518,7 @@ public class Process extends AppCompatActivity {
         intent.setType("image/png");
 
         // calling startactivity() to share
-        startActivity(Intent.createChooser(intent, "Share Via"));
+        startActivity(Intent.createChooser(intent, "Share"));
     }
 
     // Retrieving the url to share
@@ -576,8 +549,6 @@ public class Process extends AppCompatActivity {
         public String hex_color ="";
         private Context context;
         private List<App> apps;
-        public Process process;
-
 
         public CustomAdaptor(Context context, List<App> apps) {
             this.context = context;
