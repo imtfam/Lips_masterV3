@@ -3,6 +3,7 @@ package com.example.convertrgbtogray;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,6 +39,7 @@ import android.widget.Toast;
 import com.chaquo.python.PyObject;
 import com.chaquo.python.Python;
 import com.chaquo.python.android.AndroidPlatform;
+import com.ortiz.touchview.TouchImageView;
 import com.otaliastudios.cameraview.BitmapCallback;
 import com.otaliastudios.cameraview.PictureResult;
 
@@ -46,6 +48,7 @@ import org.w3c.dom.Text;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -74,7 +77,7 @@ public class Process extends AppCompatActivity {
     ///////////////iv
     ImageView imageView;
     ImageView originalImageView;
-    ImageButton btnSave;
+    ImageButton btnSave,btnshare;
         ///////////////about gallery
     public static final int REQUEST_GALLERY = 1;
 
@@ -347,9 +350,27 @@ public class Process extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BitmapDrawable drawable_save = (BitmapDrawable)iv.getDrawable();
-                Bitmap bitmap_save = drawable_save.getBitmap();
-                SaveImageGallery(bitmap_save);
+                /*if (str_iv.equals("null")){
+                    Toast.makeText(Process.this,"\n" + "Please select a new image.",Toast.LENGTH_SHORT).show();
+                }*/
+
+                    BitmapDrawable drawable_save = (BitmapDrawable)iv.getDrawable();
+                    Bitmap bitmap_save = drawable_save.getBitmap();
+                    SaveImageGallery(bitmap_save);
+
+            }
+        });
+
+        btnshare = findViewById(R.id.buttonshare);
+        btnshare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Now share image function will be called
+                // here we  will be passing the text to share
+                // Getting drawable value from image
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) iv.getDrawable();
+                Bitmap bitmap = bitmapDrawable.getBitmap();
+                shareImageandText(bitmap);
             }
         });
         }
@@ -507,6 +528,44 @@ public class Process extends AppCompatActivity {
             Toast.makeText(Process.this,"No save ",Toast.LENGTH_SHORT).show();
         }
     }
+    private void shareImageandText(Bitmap bitmap) {
+        Uri uri = getmageToShare(bitmap);
+        Intent intent = new Intent(Intent.ACTION_SEND);
+
+        // putting uri of image to be shared
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+
+        // adding text to share
+        intent.putExtra(Intent.EXTRA_TEXT, "Sharing Image");
+
+        // Add subject Here
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Subject Here");
+
+        // setting type to image
+        intent.setType("image/png");
+
+        // calling startactivity() to share
+        startActivity(Intent.createChooser(intent, "Share Via"));
+    }
+
+    // Retrieving the url to share
+    private Uri getmageToShare(Bitmap bitmap) {
+        File imagefolder = new File(getCacheDir(), "images");
+        Uri uri = null;
+        try {
+            imagefolder.mkdirs();
+            File file = new File(imagefolder, "shared_image.png");
+            FileOutputStream outputStream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, outputStream);
+            outputStream.flush();
+            outputStream.close();
+            uri = FileProvider.getUriForFile(this, "com.anni.shareimage.fileprovider", file);
+        } catch (Exception e) {
+            Toast.makeText(this, "" + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+        return uri;
+    }
+
 
     @Override
     public void onBackPressed() {
