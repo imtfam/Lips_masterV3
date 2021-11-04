@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 public class MainActivity extends AppCompatActivity {
 
-    ImageButton btnHome,btnCamera_Realtime;
+    ImageButton btnHome,btnCameraHome;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,11 +24,11 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-        btnCamera_Realtime = findViewById(R.id.imageButtonCam);
-        btnCamera_Realtime.setOnClickListener(new View.OnClickListener() {
+        btnCameraHome = findViewById(R.id.imageButtonCam);
+        btnCameraHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent2  = new Intent(getApplicationContext(),Camera_Realtime.class);
+                Intent intent2  = new Intent(getApplicationContext(),CameraActivity.class);
                 startActivity(intent2);
             }
         });
