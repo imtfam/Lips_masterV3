@@ -96,7 +96,9 @@ public class Process extends AppCompatActivity {
         Re_process.addView(v);
 
 
+
         iv = (ImageView)findViewById(R.id.imageView_show);
+
         originalImageView = new ImageView(this);
         if (result != null) {
             try {
@@ -111,6 +113,9 @@ public class Process extends AppCompatActivity {
                 Log.e(TAG, "onCreate: ", e);
             }
         }else {
+            Bundle extras = getIntent().getExtras();
+            Uri imagebitmap = (Uri) extras.get("imageGallery");
+            iv.setImageURI(imagebitmap);
             originalImageView.setImageDrawable(iv.getDrawable());
         }
         mList = findViewById(R.id.list2);
@@ -319,8 +324,7 @@ public class Process extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
-                startActivityForResult(Intent.createChooser(intent
-                        , "Select Picture"), REQUEST_GALLERY);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_GALLERY);
             }
         });
         ///////////////////////////////////////////open camera
@@ -345,7 +349,6 @@ public class Process extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                     BitmapDrawable drawable_save = (BitmapDrawable) iv.getDrawable();
                     Bitmap bitmap_save = drawable_save.getBitmap();
                     SaveImageGallery(bitmap_save);
