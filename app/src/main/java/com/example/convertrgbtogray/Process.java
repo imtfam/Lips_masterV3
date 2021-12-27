@@ -70,8 +70,9 @@ public class Process extends AppCompatActivity {
     Dialog noDialog;
     String imageString="";
 
+
     private static final int BUFFER_SIZE = 1024 * 8;
-    private String TAG = MainActivity.class.getSimpleName();
+    private String TAG = MainActivity.classs.getSimpleName();
 
     ///////////////iv
     ImageView originalImageView;
