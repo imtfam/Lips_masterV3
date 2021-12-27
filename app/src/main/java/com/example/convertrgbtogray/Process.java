@@ -62,7 +62,6 @@ public class Process extends AppCompatActivity {
     List<App> appList1,appListColor;
     Button button_Matte,button_Satin,button_Amplified,button_Lustre,button_Chemesheen;
      public static PictureResult pictureResult = null;
-
     ImageView iv;
        //take bitmap and bitmap drawable to get image form image view
     BitmapDrawable drawable;
