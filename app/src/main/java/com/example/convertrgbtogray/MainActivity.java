@@ -32,9 +32,6 @@ public class MainActivity extends AppCompatActivity {
                         intent.setType("image/*");
                         startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_GALLERY);
 
-
-               /* Intent intent = new Intent(getApplicationContext(), Process.class);
-                startActivity(intent);*/
             }
 
         });

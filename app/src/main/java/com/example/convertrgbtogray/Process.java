@@ -62,6 +62,7 @@ public class Process extends AppCompatActivity {
     List<App> appList1,appListColor;
     Button button_Matte,button_Satin,button_Amplified,button_Lustre,button_Chemesheen;
      public static PictureResult pictureResult = null;
+
     ImageView iv;
        //take bitmap and bitmap drawable to get image form image view
     BitmapDrawable drawable;
@@ -98,8 +99,8 @@ public class Process extends AppCompatActivity {
 
 
         iv = (ImageView)findViewById(R.id.imageView_show);
-
         originalImageView = new ImageView(this);
+
         if (result != null) {
             try {
                 result.toBitmap(new BitmapCallback() {
@@ -107,6 +108,8 @@ public class Process extends AppCompatActivity {
                     public void onBitmapReady(@Nullable Bitmap bitmap) {
                         iv.setImageBitmap(bitmap);
                         originalImageView.setImageDrawable(iv.getDrawable());
+                        pictureResult = null;
+
                     }
                 });
             } catch (UnsupportedOperationException e) {
@@ -114,8 +117,8 @@ public class Process extends AppCompatActivity {
             }
         }else {
             Bundle extras = getIntent().getExtras();
-            Uri imagebitmap = (Uri) extras.get("imageGallery");
-            iv.setImageURI(imagebitmap);
+            Uri imageUri = (Uri) extras.get("imageGallery");
+            iv.setImageURI(imageUri);
             originalImageView.setImageDrawable(iv.getDrawable());
         }
         mList = findViewById(R.id.list2);
@@ -406,7 +409,6 @@ public class Process extends AppCompatActivity {
                             noDialog.setContentView(R.layout.no_face_dialog);
                             noDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-                            ImageView imageDialog = noDialog.findViewById(R.id.imageNodialog);
                             Button btnOK = noDialog.findViewById(R.id.btn_no_face);
 
                             btnOK.setOnClickListener(new View.OnClickListener() {
